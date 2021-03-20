@@ -1,5 +1,5 @@
-# Streaming-Graph-Algorithms
-##How to run:
+# Streaming-Graph-Algorithms #
+##How to run:##
 1. Clone the repository
 2. src/common.mk contains system information such as library paths, compute capability etc. Update it for your system.
 3. Run the makefile in src folder. This will create an executables in bin folder.
