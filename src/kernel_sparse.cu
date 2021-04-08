@@ -69,16 +69,10 @@ __global__ void merge_scc_kernel(int m, int num_scc, int nnz, int* scc, int* col
 		int row_start = trc_row[tid], row_end = trc_row[tid+1];
 
 		for(int i = row_start; i < row_end; i++){
-			if(i >= nnz)
-				printf("ijiijiijiji");
 			int v = trc_column[i];
 
 			// With auxilary set data-structure, this linear scan can be reduced to constant time check
-			if(v+1 > num_scc)
-				printf("ajajajajaj%d %d %d", v+1, i, nnz);
 			for(int j = trc_row[v]; j < trc_row[v+1]; j++){
-				if(j >= nnz)
-					printf("vvvoovovovo");
 				if(trc_column[j] == tid){
 					if(colors[tid] > colors[v])
 						colors[tid] = colors[v];
@@ -195,7 +189,7 @@ void update_transitive_closure_cpu(const int num_scc, int*& trc_column, int* trc
 	free(trc_column);
 	trc_column = (int *)malloc(nnz * sizeof(int));
 	trc_row[num_scc] = nnz;
-	printf("nnz: %d\n", nnz);
+	printf("scc-nnz: %d\n", nnz);
 
 	int col = 0;
 	for(int i = 0; i < num_scc; i++){

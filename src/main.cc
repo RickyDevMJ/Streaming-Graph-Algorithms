@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 	t_compute_1.Start();
 	num_scc = rename_colors(m, scc_root);
 	t_compute_1.Stop();
-	
+	printf("rename_colors: %f ms.\n", t_compute_1.Millisecs());
 	
 	// Dense representation
 	
@@ -67,19 +67,32 @@ int main(int argc, char *argv[]) {
 	read_updates(argv[2], m, num_scc, out_row_offsets, out_column_indices, scc_root, trc_column, trc_row);
 	t_read.Stop();
 
+	float sum = 0; 
 	t_compute_2.Start();
 	update_transitive_closure_cpu(num_scc, trc_column, trc_row);
+	t_compute_2.Stop();
+	sum += t_compute_2.Millisecs();
+	printf("update_transitive_closure: %f ms.\n", t_compute_2.Millisecs());
+
+	t_compute_2.Start();
 	merge_scc(m, num_scc, scc_root, trc_column, trc_row);
+	t_compute_2.Stop();
+	sum += t_compute_2.Millisecs();
+	printf("merge_scc: %f ms.\n", t_compute_2.Millisecs());
+	
+	t_compute_2.Start();
 	num_scc = rename_colors(m, scc_root);
 	// TODO: transitive closure must re-initialized for dynamic algorithm
 	t_compute_2.Stop();
+	sum += t_compute_2.Millisecs();
+	printf("rename_colors: %f ms.\n", t_compute_2.Millisecs());
 	
-
+	printf("\n");
 	printf("Completed!\n");
 	printf("SCC count = %d\n", num_scc);
 	printf("Runtime for initializing Transitive Closure = %f ms.\n", t_initialize.Millisecs());
 	printf("Runtime for reading updates from file = %f ms.\n", t_read.Millisecs());
-	printf("Runtime for SCC Update = %f ms.\n", t_compute_1.Millisecs() + t_compute_2.Millisecs());
+	printf("Runtime for SCC Update = %f ms.\n", t_compute_1.Millisecs() + sum);//t_compute_2.Millisecs());
 	
 	/*
 	for(int i=0; i<m; i++){
