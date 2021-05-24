@@ -48,17 +48,6 @@ __global__ void update_colors(int m, int* scc, int* colors){
    	}
 }
 
-/*
-__global__ void update_trc_kernel(int k, int num_scc, int nnz, int* trc_column, int* trc_row){
-   	int tid = blockIdx.x * blockDim.x + threadIdx.x;
-
-   	if(tid < num_scc * num_scc){
-	  	int i = tid / num_scc, j = tid % num_scc;
-	 	trans_closure[tid] |= (trans_closure[i*num_scc + k] && trans_closure[k*num_scc + j]);
- 	}
-}
-*/
-
 __global__ void merge_scc_kernel(int m, int num_scc, int nnz, int* scc, int* colors, int* trc_column, int* trc_row){
    	int tid = blockIdx.x * blockDim.x + threadIdx.x;
    

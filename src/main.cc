@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 
 	float sum = 0; 
 	t_compute_2.Start();
-	update_transitive_closure_cpu(num_scc, trc_column, trc_row);
+	update_transitive_closure(num_scc, trc_column, trc_row);
 	t_compute_2.Stop();
 	sum += t_compute_2.Millisecs();
 	printf("update_transitive_closure: %f ms.\n", t_compute_2.Millisecs());
